@@ -5,8 +5,17 @@ FROM composer:2 AS composer_stage
 # Set the working directory
 WORKDIR /app
 
-# Copy necessary files for Composer and install dependencies
+# Copy necessary files for Composer
 COPY composer.json composer.lock ./
+
+# CRITICAL FIX: Copy 'artisan' and other minimal files needed by Composer scripts
+# BEFORE running composer install. This resolves the "Could not open input file: artisan" error.
+COPY artisan ./
+COPY app/ app/
+COPY config/ config/
+COPY bootstrap/ bootstrap/
+
+# Run composer install (which now has 'artisan' to execute post-autoload-dump)
 RUN composer install --no-dev --optimize-autoloader
 
 # Copy the rest of the application code
