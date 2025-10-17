@@ -45,7 +45,7 @@ RUN chown -R www-data:www-data /var/www/html/storage \
 
 # Copy Nginx configuration file
 # This assumes you create a folder named .docker in your root.
-COPY .docker/nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose the port Nginx will listen on
 EXPOSE 8080
